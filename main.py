@@ -1,17 +1,14 @@
 def main():
-    alphabet = []
-    with open("books/alphabet.txt") as f:
-        alphabet = f.read().split()
     with open("books/frankenstein.txt") as f:
         file_contents = f.read()
         ##print(file_contents)
         print("--- Begin report of books/frankenstein.txt ---")
         words = word_count(file_contents)
         print(f"{words} words found in the document\n")
-        characters = character_count(file_contents)
+        characters = sort_dict(character_count(file_contents))
         for char in characters:
-            if char in alphabet:
-                print(f"the '{char}' was found {characters[char]} times")
+            if char["char"].isalpha():
+                print(f"the '{char["char"]}' was found {char["num"]} times")
         print("--- End report ---")
 
 
@@ -27,6 +24,16 @@ def character_count(txt):
             res[char] += 1
         else:
             res [char] = 1
+    return res
+
+def sort_on(dict):
+    return dict['num']
+
+def sort_dict(dict):
+    res = []
+    for item in dict:
+        res.append({"char": item, "num":dict[item]})
+    res.sort(reverse=True, key=sort_on)
     return res
 
 main()
